@@ -46,9 +46,11 @@ public class Portal : MonoBehaviour
         Vector3 cameraRelative = -frontScreen.transform.InverseTransformPoint(Camera.main.transform.position);
 
         if (cameraRelative.x < portalWidth / 2 && cameraRelative.x > -(portalWidth / 2)) {
-            if (!traversing && cameraRelative.z > -.2 && cameraRelative.z < .2) {
-                GameObject quad = cameraRelative.z > 0 ? quad0 : quad1;
-                quad.SetActive(true);
+            if (cameraRelative.z > -.2 && cameraRelative.z < .2) {
+                if (!traversing) {
+                    GameObject quad = cameraRelative.z > 0 ? quad0 : quad1;
+                    quad.SetActive(true);
+                }
                 traversing = true;
             } else {
                 quad0.SetActive(false);

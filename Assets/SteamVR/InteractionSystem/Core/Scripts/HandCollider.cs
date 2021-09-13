@@ -78,6 +78,22 @@ namespace Valve.VR.InteractionSystem
         {
             rigidbody = GetComponent<Rigidbody>();
             rigidbody.maxAngularVelocity = 50;
+            SetLayerRecursively(transform.gameObject, 6);
+        }
+
+        public void SetLayerRecursively(GameObject obj, int newLayer) {
+            if (null == obj) {
+                return;
+            }
+
+            obj.layer = newLayer;
+
+            foreach (Transform child in obj.transform) {
+                if (null == child) {
+                    continue;
+                }
+                SetLayerRecursively(child.gameObject, newLayer);
+            }
         }
 
         private void Start()

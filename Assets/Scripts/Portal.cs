@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,15 +19,24 @@ public class Portal : MonoBehaviour
 
     private GameObject quad0;
     private GameObject quad1;
-    private float portalWidth;
+
+    public float portalWidth;
+    public float portalHeight;
 
     private void Awake() {
 
-        portalWidth = frontScreen.transform.localScale.x;
         quad0 = frontScreen.transform.GetChild(0).gameObject;
         quad1 = backScreen.transform.GetChild(0).gameObject;
         SetupQuads(frontScreen, frontMask);
         SetupQuads(backScreen, backMask);
+
+        SetupScreens();
+    }
+
+    private void SetupScreens() {
+        transform.localScale = new Vector3(portalWidth, portalHeight, 1);
+        frontScreen.transform.position = new Vector3(frontScreen.transform.position.x, portalHeight / 2, frontScreen.transform.position.z);
+        backScreen.transform.position = new Vector3(backScreen.transform.position.x, portalHeight / 2, backScreen.transform.position.z);
     }
 
     //TODO: Hands and object traversal to the portals.

@@ -57,6 +57,9 @@ namespace Valve.VR.InteractionSystem
                 handSkeleton.skeletonAction.onActiveChange += OnSkeletonActiveChange;
 
                 handRenderers = handInstance.GetComponentsInChildren<Renderer>();
+
+                SetLayerRecursively(handInstance, 6);
+
                 if (displayHandByDefault == false)
                     SetHandVisibility(false);
 
@@ -68,6 +71,21 @@ namespace Valve.VR.InteractionSystem
                         "Please add a fallback skeleton poser to your skeleton if you want hands to be visible");
                     DestroyHand();
                 }
+            }
+        }
+
+        public void SetLayerRecursively(GameObject obj, int newLayer) {
+            if (null == obj) {
+                return;
+            }
+
+            obj.layer = newLayer;
+
+            foreach (Transform child in obj.transform) {
+                if (null == child) {
+                    continue;
+                }
+                SetLayerRecursively(child.gameObject, newLayer);
             }
         }
 

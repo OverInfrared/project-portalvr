@@ -6,7 +6,7 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
 
-    [SerializeField] int stencilNumber;
+    public int stencilNumber;
 
     [SerializeField] int frontRenderQueue = 1850;
     [SerializeField] int backRenderQueue = 1950;
@@ -24,10 +24,8 @@ public class Room : MonoBehaviour
 
     private void Update() {
 
-        if (stencilNumber == 0) {
-            ObjectsInRoom();
-            ObjectsBlocked();
-        }
+        ObjectsInRoom();
+        ObjectsBlocked();
 
     }
 

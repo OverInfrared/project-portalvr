@@ -15,7 +15,7 @@ public class Room : MonoBehaviour
     Transform[] roomObjects;
 
     private void Awake() {
-        int layer = 1;
+        int layer = 6;
         layerMask = 1 << layer;
         layerMask = ~layerMask;
 
@@ -24,9 +24,22 @@ public class Room : MonoBehaviour
 
     private void Update() {
 
-        ObjectsInRoom();
-        ObjectsBlocked();
+        if (gameObject.layer == 6) {
+            ObjectsInRoom();
+            ObjectsBlocked();
+        }
+        RecursivePortals();
 
+    }
+
+    private void RecursivePortals() {
+        foreach (Transform portals in this.transform) {
+            if (portals.tag.Equals("Portal")) {
+                var iworld = transform.root.GetComponent<IWorld>();
+                if (iworld == null) return;
+                var conectedRoom = iworld.getRoomFromStencil(stencilNumber);
+            }
+        }
     }
 
     private void ObjectsBlocked() {

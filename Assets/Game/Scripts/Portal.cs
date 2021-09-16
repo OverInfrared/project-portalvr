@@ -7,7 +7,7 @@ public class Portal : MonoBehaviour
 
     public bool portalEnabled = true;
 
-    [SerializeField] int mask;
+    public int mask;
 
     //Deprecated
     //[SerializeField] Renderer playerRender;

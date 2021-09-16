@@ -6,7 +6,6 @@ public class Portal : MonoBehaviour
 {
 
     public bool portalEnabled = true;
-
     public int mask;
 
     //Deprecated
@@ -18,7 +17,7 @@ public class Portal : MonoBehaviour
     public float portalWidth;
     public float portalHeight;
 
-    public int renderQueue = 1900;
+    public int renderQueue = 1907;
 
     private void Awake() {
         screen = transform.GetChild(0).gameObject;

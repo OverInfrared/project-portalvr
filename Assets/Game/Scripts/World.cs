@@ -20,23 +20,10 @@ public class World : MonoBehaviour, IWorld
 
 
     public void setActiveRoom(int stencil) {
-        //int pRoomStencil = playerRenderer.GetComponent<Renderer>().material.GetInt("_StencilMask");
         playerRenderer.GetComponent<Renderer>().material.SetInt("_StencilMask", stencil);
 
         RemoveRoomLayers();
-        UpdateRoomLayers(stencil, 6);
-
-        //foreach (Transform trans in transform) {
-        //    var room = trans.GetComponent<Room>();
-        //    if (room == null) continue;
-        //    //Debug.Log("Room: " + room.stencilNumber + " Stencil: " + stencil) ;
-        //    if (room.stencilNumber == stencil) {
-        //        ChangeLayer(trans, 6);
-        //    } else {
-        //        ChangeLayer(trans, 7);
-        //    }
-        //}
-
+        UpdateRooms(stencil, 6);
     }
 
     private void RemoveRoomLayers() {
@@ -45,7 +32,7 @@ public class World : MonoBehaviour, IWorld
         }
     }
 
-    private void UpdateRoomLayers(int stencil, int layer) {
+    private void UpdateRooms(int stencil, int layer) {
         if (layer == 10) return;
         var room = getRoomFromStencil(stencil);
         if (room.gameObject.layer != 10) return;
@@ -53,23 +40,62 @@ public class World : MonoBehaviour, IWorld
         layer++;
         foreach (Transform roomObject in room.GetComponent<Transform>()) {
             if (roomObject.tag.Equals("Portal")) {
-                UpdateRoomLayers(roomObject.GetComponent<Portal>().mask, layer);
+                TogglePortals(room, roomObject);
+                UpdatePortalMaterials(roomObject, layer - 1);
+                UpdateRooms(roomObject.GetComponent<Portal>().mask, layer);
+            } else {
+                UpdateMaterials(roomObject, layer - 1);
             }
         }
     }
 
-    private void ChangeRoomLayer(Transform room, int layer) {
-        foreach (Transform childs in room.GetComponentsInChildren<Transform>()) {
-            childs.gameObject.layer = layer;
+    private void UpdatePortalMaterials(Transform roomObject, int layer) {
+        if (layer != 6) {
+            var renderer = roomObject.GetChild(0).GetComponent<Renderer>();
+            if (renderer == null) return;
+            renderer.material.renderQueue = (layer - 6) + (1901 + layer) + 1;
         }
+    }
+
+    private void UpdateMaterials(Transform roomObject, int layer) {
+        if (layer != 6) {
+            var renderer = roomObject.GetComponent<Renderer>();
+            if (renderer == null) return;
+            renderer.material.renderQueue = (layer - 6) + (1901 + layer);
+            //Debug.Log((layer - 6) + (1901 + layer));
+        }
+    }
+
+    private static void TogglePortals(Room room, Transform roomObject) {
+        var portal = roomObject.GetComponent<Portal>();
+        if (portal == null) return;
+        if (room.gameObject.layer == 6) {
+            roomObject.GetComponent<Portal>().portalEnabled = true;
+        } else {
+            roomObject.GetComponent<Portal>().portalEnabled = false;
+        }
+    }
+
+    private void ChangeRoomLayer(Transform room, int layer) {
+        foreach (Transform child in room.GetComponentsInChildren<Transform>()) {
+            child.gameObject.layer = layer;
+            PortalRenderers(child, layer);
+        }
+    }
+
+    void PortalRenderers(Transform child, int layer) {
+        Portal portal = child.GetComponent<Portal>();
+        if (portal == null) return;
+        portal.transform.GetChild(0).GetComponent<Renderer>().enabled = layer == 10 ? false : true;
     }
 
     private void Awake() {
 
-        //TEMP
         RemoveRoomLayers();
-        UpdateRoomLayers(1, 6);
+        UpdateRooms(1, 6);
 
+
+        //TEMP
         var playArea = new HmdQuad_t();
         var chaperone = OpenVR.Chaperone;
         bool success = (chaperone != null) && chaperone.GetPlayAreaRect(ref playArea);

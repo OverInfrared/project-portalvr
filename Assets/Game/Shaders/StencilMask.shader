@@ -20,7 +20,7 @@ Shader "Stencils/StencilMask"
 		Stencil
 		{
 			Ref[_StencilMask]
-			Comp always
+			Comp greater
 			Pass replace
 		}
 

@@ -8,8 +8,8 @@ public class Room : MonoBehaviour
 
     public int stencilNumber;
 
-    int frontRenderQueue = 1906;
-    int backRenderQueue = 1908;
+    int frontRenderQueue = 1914;
+    int backRenderQueue = 1914;
 
     private int layerMask;
 
@@ -44,10 +44,10 @@ public class Room : MonoBehaviour
                 Ray objectRay = new Ray(child.position, Camera.main.transform.position - child.position);
                 foreach (RaycastHit rayhit in Physics.RaycastAll(objectRay, 100, layerMask)) {
                     if (rayhit.transform.gameObject.tag.Equals("Portal")) {
-                        child.GetComponent<Renderer>().material.renderQueue = backRenderQueue;
+                        //child.GetComponent<Renderer>().material.renderQueue = backRenderQueue;
                         break;
                     } else {
-                        child.GetComponent<Renderer>().material.renderQueue = frontRenderQueue;
+                        //child.GetComponent<Renderer>().material.renderQueue = frontRenderQueue;
                     }
                 }
             }

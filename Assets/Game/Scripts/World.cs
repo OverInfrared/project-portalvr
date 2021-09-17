@@ -53,7 +53,7 @@ public class World : MonoBehaviour, IWorld
         if (layer != 6) {
             var renderer = roomObject.GetChild(0).GetComponent<Renderer>();
             if (renderer == null) return;
-            renderer.material.renderQueue = (layer - 6) + (1901 + layer) + 1;
+            //renderer.material.renderQueue = (1920 - layer) - (layer - 6) + 1;
         }
     }
 
@@ -61,7 +61,7 @@ public class World : MonoBehaviour, IWorld
         if (layer != 6) {
             var renderer = roomObject.GetComponent<Renderer>();
             if (renderer == null) return;
-            renderer.material.renderQueue = (layer - 6) + (1901 + layer);
+            //renderer.material.renderQueue = (1920 - layer) - (layer - 6);
             //Debug.Log((layer - 6) + (1901 + layer));
         }
     }

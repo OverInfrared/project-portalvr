@@ -78,7 +78,7 @@ public class Portal : MonoBehaviour
         Renderer stencilMask = screen.GetComponent<Renderer>();
         stencilMask.material = new Material(Shader.Find("Stencils/StencilMask"));
         stencilMask.material.SetInt("_StencilMask", mask);
-        stencilMask.material.renderQueue = renderQueue;
+        //stencilMask.material.renderQueue = renderQueue;
         ChangeMaterial(stencilMask.material, screen);
         screen.transform.GetChild(0).gameObject.SetActive(false);
     }

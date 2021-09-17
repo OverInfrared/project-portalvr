@@ -18,7 +18,7 @@
 		{
 			Ref[_StencilMask]
 			Comp equal
-			Pass keep
+			Pass zero
 			Fail keep
 		}
 
